@@ -1,20 +1,66 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      AnimalTest
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <ion-button (click)="toggleModalAdd()">Ajouter</ion-button>
+    </ion-row>
+    <ion-row *ngFor="let animal of animals">
+      <ion-col>
+        <ion-label name="type">{{animal.type}}</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label name="poids">{{animal.poids}}</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label name="bruit">{{animal.bruit}}</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-button name="modif" (click)="toggleModalModify(animal.id)">Modifier</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button name="delete" (click)="deleteAnimal(animal.id)">Supprimer</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <form [formGroup]="animalAddForm" (ngSubmit)="addAnimal()" [hidden]="!showModalAdd">
+    <ion-list>
+      <ion-item>
+        <ion-input label="Type" formControlName="type"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Poids" type="number" formControlName="poids"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Bruit" formControlName="bruit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button expand="full" type="submit" [disabled]="!animalAddForm.valid">Submit</ion-button>
+      </ion-item>
+    </ion-list>
+  </form>
+
+  <form [formGroup]="animalModifyForm" (ngSubmit)="updateAnimal(animalToModify.id)" [hidden]="!showModalModify">
+    <ion-list>
+      <ion-item>
+        <ion-input label="Type" formControlName="type"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Poids" type="number" formControlName="poids"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Bruit" formControlName="bruit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button expand="full" type="submit" [disabled]="!animalModifyForm.valid">Submit</ion-button>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>
